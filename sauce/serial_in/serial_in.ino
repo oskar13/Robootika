@@ -2,10 +2,17 @@
 
 int bars[32] = {1,2,3,4,5,6,7,8,7,6,5,4,3,2,1,1,2,3,4};
 
+int potPin = 2;    // select the input pin for the potentiometer
+int ledPin = 13;   // select the pin for the LED
+int val = 0;       // variable to store the value coming from the sensor
+int val2= 1;
+
+
 void setup() {
   Serial.begin(9600);
   Serial.setTimeout(5); 
   HT1632.begin(9,10,11);
+  pinMode(ledPin, OUTPUT);  // declare the ledPin as an OUTPUT
 
 }
 
@@ -29,6 +36,18 @@ void loop() {
 
   //bars[1] = bars[0];
   
+  
+  val = analogRead(potPin);    // read the value from the sensor
+  //digitalWrite(ledPin, HIGH);  // turn the ledPin on
+  //delay(val);                  // stop the program for some time
+  //digitalWrite(ledPin, LOW);   // turn the ledPin off
+  //delay(val);                  // stop the program for some time
+  val2 = val / 64;
+  if (val2 == 0) {
+    val2 = 1;
+  }
+  
+  HT1632.setBrightness(val2);
   
   for (int j = 31; j>=0 ;j--) {
     if (j>0){
